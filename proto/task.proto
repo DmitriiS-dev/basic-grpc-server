@@ -1,0 +1,22 @@
+syntax="proto3";
+
+package proto;
+
+option go_package = "./proto";
+
+import "google/protobuf/timestamp.proto";
+
+enum TaskStatus {
+  TASK_STATUS_UNSPECIFIED = 0;
+  TASK_STATUS_TODO = 1;
+  TASK_STATUS_IN_PROGRESS = 2;
+  TASK_STATUS_DONE = 3;
+}
+
+message Task {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  TaskStatus completion_status = 4;
+  google.protobuf.Timestamp timestamp = 5;
+}
