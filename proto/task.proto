@@ -20,3 +20,27 @@ message Task {
   TaskStatus completion_status = 4;
   google.protobuf.Timestamp timestamp = 5;
 }
+
+
+// Endpoints:
+message GetTaskRequest {
+  int32 id = 1;
+}
+
+message AddTaskRequest {
+  Task task = 1;
+}
+
+message Empty {}
+
+message TaskList {
+  repeated Task tasks = 1;
+}
+
+// Defining a service:
+
+service TaskService {
+  rpc GetTask(GetTaskRequest) returns (Task); // remote callable func called GetTask
+  rpc ListTasks(Empty) returns (TaskList); 
+  rpc AddTask(AddTaskRequest) returns (Task);
+}

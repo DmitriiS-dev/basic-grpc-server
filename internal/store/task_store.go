@@ -1,8 +1,10 @@
 package store
 
 import (
-	pb "github.com/DmitriiS-dev/basic-backend/proto"
+	"fmt"
 	"sync"
+
+	pb "github.com/DmitriiS-dev/basic-backend/proto"
 )
 
 var (
@@ -23,6 +25,18 @@ func GetTasks() []*pb.Task {
 	out := make([]*pb.Task, len(tasks))
 	copy(out, tasks)
 	return out
+}
+
+func GetTask(id int32) (*pb.Task, error) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	for _, task := range tasks {
+		if task.Id == id {
+			return task, nil
+		}
+	}
+	return nil, fmt.Errorf("Task with Id %d not found", id)
 }
 
 func DeleteTask(id int32) {
