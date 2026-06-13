@@ -8,14 +8,17 @@ import (
 )
 
 var (
-	tasks = make([]*pb.Task, 0)
-	mu    sync.Mutex
+	tasks        = make([]*pb.Task, 0)
+	nextId int32 = 1
+	mu     sync.Mutex
 )
 
 func AddTask(t *pb.Task) {
 	mu.Lock()
-	defer mu.Unlock()
+	defer mu.Unlock() // when this function exists then Unlock (works even if you return early)
+	t.Id = nextId
 	tasks = append(tasks, t)
+	nextId += 1
 }
 
 func GetTasks() []*pb.Task {
@@ -39,14 +42,16 @@ func GetTask(id int32) (*pb.Task, error) {
 	return nil, fmt.Errorf("Task with Id %d not found", id)
 }
 
-func DeleteTask(id int32) {
+func DeleteTask(id int32) (*pb.Task, error) {
 	mu.Lock()
 	defer mu.Unlock()
 
 	for i, task := range tasks {
 		if task.Id == id {
 			tasks = append(tasks[:i], tasks[i+1:]...)
+			return task, nil
 		}
 	}
+	return nil, fmt.Errorf("Task with Id %d not found", id)
 
 }

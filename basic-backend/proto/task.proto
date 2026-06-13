@@ -2,7 +2,7 @@ syntax="proto3";
 
 package proto;
 
-option go_package = "./proto";
+option go_package = "github.com/DmitriiS-dev/basic-backend/proto";
 
 import "google/protobuf/timestamp.proto";
 
@@ -31,6 +31,10 @@ message AddTaskRequest {
   Task task = 1;
 }
 
+message DeleteTaskRequest{
+  int32 id = 1;
+}
+
 message Empty {}
 
 message TaskList {
@@ -43,4 +47,5 @@ service TaskService {
   rpc GetTask(GetTaskRequest) returns (Task); // remote callable func called GetTask
   rpc ListTasks(Empty) returns (TaskList); 
   rpc AddTask(AddTaskRequest) returns (Task);
+  rpc DeleteTask(DeleteTaskRequest) returns (Task);
 }
