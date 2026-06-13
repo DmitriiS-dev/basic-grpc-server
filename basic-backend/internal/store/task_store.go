@@ -8,14 +8,17 @@ import (
 )
 
 var (
-	tasks = make([]*pb.Task, 0)
-	mu    sync.Mutex
+	tasks        = make([]*pb.Task, 0)
+	nextId int32 = 1
+	mu     sync.Mutex
 )
 
 func AddTask(t *pb.Task) {
 	mu.Lock()
 	defer mu.Unlock()
+	t.Id = nextId
 	tasks = append(tasks, t)
+	nextId += 1
 }
 
 func GetTasks() []*pb.Task {

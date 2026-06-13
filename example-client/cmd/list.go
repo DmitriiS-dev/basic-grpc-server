@@ -32,7 +32,8 @@ var listCmd = &cobra.Command{
 			return
 		}
 		for _, task := range output.Tasks {
-			fmt.Printf("Title: %s, Description: %s\n", task.Title, task.Description)
+			fmt.Printf("Id: %d | Title: %s | Description: %s\n",
+				task.Id, task.Title, task.Description)
 		}
 
 	},
