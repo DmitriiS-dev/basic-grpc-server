@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+
 	"github.com/DmitriiS-dev/basic-backend/internal/store"
 	pb "github.com/DmitriiS-dev/basic-backend/proto"
 )
@@ -35,5 +36,16 @@ func (s *TaskServer) GetTask(
 		return nil, err
 	}
 
+	return task, nil
+}
+
+func (s *TaskServer) DeleteTask(
+	ctx context.Context,
+	req *pb.DeleteTaskRequest,
+) (*pb.Task, error) {
+	task, err := store.DeleteTask(req.Id)
+	if err != nil {
+		return nil, err
+	}
 	return task, nil
 }

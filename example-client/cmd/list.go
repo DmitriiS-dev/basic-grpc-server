@@ -16,6 +16,8 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Lists all TODO items inside the list",
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("CONNECTING TO:", serverFlagURL)
+
 		c, err := client.NewClient(serverFlagURL)
 		if err != nil {
 			fmt.Println("Error creating client")

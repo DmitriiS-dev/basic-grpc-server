@@ -12,13 +12,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// getCmd represents the get command
-var getCmd = &cobra.Command{
-	Use:   "get [task id]",
-	Short: "Gets a TODO item by its ID",
+// deleteCmd represents the delete command
+var deleteCmd = &cobra.Command{
+	Use:   "delete [task id]",
+	Short: "Deletes a TODO by its Id",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
+		// args
 		c, err := client.NewClient(serverFlagURL)
 		if err != nil {
 			println("Error, could not create new Client", err)
@@ -34,16 +35,12 @@ var getCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		output, err := c.GetTask(ctx, id)
+		output, err := c.DeleteTask(ctx, id)
 		if err != nil {
-			fmt.Println("Error fetching task", err)
+			fmt.Println("Error Deleting a task", err)
 			return
 		}
-		if output.Id == 0 {
-			fmt.Printf("No task found with id %d\n", id)
-			return
-		}
-		fmt.Println("Found a Task:")
+		fmt.Println("Found a Task & Deleted it (Here is the info):")
 		fmt.Printf(
 			"ID: %d | Title: %s | Description: %s\n",
 			output.Id,
@@ -54,15 +51,15 @@ var getCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(deleteCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// getCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// deleteCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

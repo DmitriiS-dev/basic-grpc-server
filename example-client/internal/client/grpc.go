@@ -16,6 +16,7 @@ Client
 ├── grpc client
 ├── ListTasks()
 ├── AddTask()
+├── DeleteTask()
 └── GetTask()
 */
 
@@ -60,6 +61,15 @@ func (c *Client) GetTask(ctx context.Context, id int32) (*pb.Task, error) {
 	return c.api.GetTask(
 		ctx,
 		&pb.GetTaskRequest{
+			Id: id,
+		},
+	)
+}
+
+func (c *Client) DeleteTask(ctx context.Context, id int32) (*pb.Task, error) {
+	return c.api.DeleteTask(
+		ctx,
+		&pb.DeleteTaskRequest{
 			Id: id,
 		},
 	)
