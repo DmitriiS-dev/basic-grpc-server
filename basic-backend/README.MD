@@ -15,3 +15,9 @@ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 - installing: `go get ...`
 - manage dependencies: `go mod tidy`
 
+#### Example Run Commands:
+`go run .\cmd\project\ -DatabaseType "In-Memory" `
+or use Default Postgres Memory:
+`go run .\cmd\project\` 
+
+

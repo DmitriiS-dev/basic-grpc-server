@@ -37,10 +37,10 @@ var deleteCmd = &cobra.Command{
 
 		output, err := c.DeleteTask(ctx, id)
 		if err != nil {
-			fmt.Println("Error Deleting a task", err)
+			fmt.Println("Failed to delete task", err)
 			return
 		}
-		fmt.Println("Found a Task & Deleted it (Here is the info):")
+		fmt.Println("Successfully deleted task:")
 		fmt.Printf(
 			"ID: %d | Title: %s | Description: %s\n",
 			output.Id,

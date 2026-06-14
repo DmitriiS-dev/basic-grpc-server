@@ -39,10 +39,6 @@ var getCmd = &cobra.Command{
 			fmt.Println("Error fetching task", err)
 			return
 		}
-		if output.Id == 0 {
-			fmt.Printf("No task found with id %d\n", id)
-			return
-		}
 		fmt.Println("Found a Task:")
 		fmt.Printf(
 			"ID: %d | Title: %s | Description: %s\n",

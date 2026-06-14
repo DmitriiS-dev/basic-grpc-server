@@ -4,7 +4,9 @@ Copyright © 2026 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"time"
 
 	"example-client/internal/client"
 
@@ -23,19 +25,23 @@ var listCmd = &cobra.Command{
 			fmt.Println("Error creating client")
 			return
 		}
-		output, err := c.ListTasks(cmd.Context())
-		defer c.Close()
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		output, err := c.ListTasks(ctx)
 		if err != nil {
-			fmt.Println("Error fetching tasks")
+			fmt.Println("Error listing tasks:", err)
 			return
 		}
-		if output == nil || output.Tasks == nil {
-			fmt.Println("No tasks found")
+
+		if len(output.Tasks) == 0 {
+			fmt.Println("Your TODO list is empty!")
 			return
 		}
+
+		fmt.Println("--- Current Tasks ---")
 		for _, task := range output.Tasks {
-			fmt.Printf("Id: %d | Title: %s | Description: %s\n",
-				task.Id, task.Title, task.Description)
+			fmt.Printf("ID: %d | Title: %s | Description: %s\n", task.Id, task.Title, task.Description)
 		}
 
 	},
